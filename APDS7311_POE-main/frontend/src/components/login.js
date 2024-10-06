@@ -11,7 +11,7 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        axios.post('https://127.0.0.1:4659/login', {
+        axios.post('http://localhost:3000/login', {
             fullName,
             accountNumber,
             password
@@ -20,7 +20,7 @@ const Login = () => {
             const token = response.data.token;
             localStorage.setItem('token', token);  // Correct use of setItem
             alert(response.data.message);
-            navigate('./components/');  // Redirect to homepage on successful login
+            navigate('/payment');  // Redirect to homepage on successful login
         })
         .catch(err => {
             console.error('Login failed:', err);

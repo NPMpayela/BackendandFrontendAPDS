@@ -11,7 +11,7 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:3000/login', {
+        axios.post('http://localhost:3000/employee/login', {
             username,
             password
         })
@@ -19,7 +19,7 @@ const Login = () => {
             const token = response.data.token;
             localStorage.setItem('token', token);  // Correct use of setItem
             alert(response.data.message);
-            navigate('./components/transactioncheckpoint');  // Redirect to homepage on successful login
+            navigate('/transactioncheckpoint');  // Redirect to homepage on successful login
         })
         .catch(err => {
             console.error('Login failed:', err);

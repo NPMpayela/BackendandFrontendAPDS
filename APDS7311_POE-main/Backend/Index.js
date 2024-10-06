@@ -84,7 +84,45 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// Login Endpoint
+// app.post('/login', async (req, res) => {
+//     try {
+//         const { fullName, accountNumber, password } = req.body;
+//         if (!fullName || !accountNumber || !password) {
+//             return res.status(400).json({ message: 'All fields are required' });
+//         }
+
+//         const usersCollection = db.collection('users');
+//         const user = await usersCollection.findOne({ fullName, accountNumber });
+
+//         if (!user) {
+//             return res.status(401).json({ message: 'Invalid credentials' });
+//         }
+
+//         // Compare provided password with the hashed password in the database
+//         const isPasswordValid = await bcrypt.compare(password, user.password);
+//         if (!isPasswordValid) {
+//             return res.status(401).json({ message: 'Invalid credentials' });
+//         }
+
+//           // Generate the token after successful login, include fullName in the JWT payload
+//           const token = jwt.sign(
+//             { userId: user._id, idNumber:user.idNumber, accountNumber: user.accountNumber, fullName: user.fullName }, 
+//             process.env.JWT_SECRET
+//         );
+//         // Send the response with the token
+//         res.status(200).json({
+//             message: `Welcome back, ${user.fullName}`,
+//             userID: user._id,
+//             token // Return the generated token
+//         });
+
+//     } catch (error) {
+//         res.status(500).json({ message: 'Internal server error', error });
+//     }
+// });
+
+
+//Login Endpoint
 app.post('/login', async (req, res) => {
     try {
         const { fullName, accountNumber, password } = req.body;
@@ -109,13 +147,60 @@ app.post('/login', async (req, res) => {
         // Successful login
         res.status(200).json({
             message: `Welcome back, ${user.fullName}`,
-            userID: user._id,
+            userID: user._id, 
+
         });
+        
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+
+
+// const authenticate = (req, res, next) => {
+//     const token = req.headers['authorization']; // Expect the token in the Authorization header
+//     if (!token) {
+//         return res.status(401).json({ message: 'Unauthorized' });
+//     }
+
+//     try {
+//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//         req.user = decoded; // Attach user data to the request (userId, accountNumber, etc.)
+//         next();
+//     } catch (error) {
+//         return res.status(401).json({ message: 'Invalid token' });
+//     }
+// };
+
+// app.post('/payments', authenticate, async (req, res) => {
+//     try {
+//         const { paymentAmount, currency, provider, swiftCode } = req.body;
+//         if (!paymentAmount || !currency || !provider || !swiftCode) {
+//             return res.status(400).json({ message: 'All fields are required' });
+//         }
+
+//         const paymentModel = {
+//             userId: req.user.userId,
+//             fullName:req.user.fullName,
+//             //idNumber:req.user.idNumber,  // Get userId from the authenticated user
+//             accountNumber: req.user.accountNumber,  // Get accountNumber from authenticated user
+//             paymentAmount,
+//             currency,
+//             provider,
+//             swiftCode,
+//             status: 'Pending' // Automatically set status to Pending
+//         };
+
+//         const paymentsCollection = db.collection('payments');
+//         await paymentsCollection.insertOne(paymentModel);
+//         res.status(201).json({ message: 'Payment created successfully' });
+//     } catch (error) {
+//         res.status(500).json({ message: 'Internal server error', error });
+//     }
+// });
 
 // Post Payment
 // Payments Endpoint

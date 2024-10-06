@@ -18,7 +18,7 @@ const Signup = () => {
 
     const handleSignup = (e) => {
         e.preventDefault();
-        axios.post('https://127.0.0.1:4659/signup', {
+        axios.post('http://localhost:3000/signup', {
             name,
             surname,
             idNumber,
