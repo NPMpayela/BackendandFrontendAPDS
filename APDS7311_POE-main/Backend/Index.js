@@ -3,31 +3,21 @@ const { client } = require("../Backend/db/db.js");
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
-
-
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-
-// const express = require('express');
-// const { client } = require("../Backend/db/db.js");
-// const cors = require('cors');
-// const bcrypt = require('bcrypt');
-// const { ObjectId } = require('mongodb');
-// const app = express();
+//const PORT = process.env.PORT || 3000;
 
 
 // Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// app.use(cors({
-//     origin: 'https://localhost:4659', // Replace with your frontend URL
-//     credentials: true // Allow credentials to be sent
-// }));
+// app.use(cors());
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
+
+app.use(cors({
+    origin: 'https://localhost:4659', // Replace with your frontend URL
+    credentials: true // Allow credentials to be sent
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 
@@ -84,42 +74,6 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// app.post('/login', async (req, res) => {
-//     try {
-//         const { fullName, accountNumber, password } = req.body;
-//         if (!fullName || !accountNumber || !password) {
-//             return res.status(400).json({ message: 'All fields are required' });
-//         }
-
-//         const usersCollection = db.collection('users');
-//         const user = await usersCollection.findOne({ fullName, accountNumber });
-
-//         if (!user) {
-//             return res.status(401).json({ message: 'Invalid credentials' });
-//         }
-
-//         // Compare provided password with the hashed password in the database
-//         const isPasswordValid = await bcrypt.compare(password, user.password);
-//         if (!isPasswordValid) {
-//             return res.status(401).json({ message: 'Invalid credentials' });
-//         }
-
-//           // Generate the token after successful login, include fullName in the JWT payload
-//           const token = jwt.sign(
-//             { userId: user._id, idNumber:user.idNumber, accountNumber: user.accountNumber, fullName: user.fullName }, 
-//             process.env.JWT_SECRET
-//         );
-//         // Send the response with the token
-//         res.status(200).json({
-//             message: `Welcome back, ${user.fullName}`,
-//             userID: user._id,
-//             token // Return the generated token
-//         });
-
-//     } catch (error) {
-//         res.status(500).json({ message: 'Internal server error', error });
-//     }
-// });
 
 
 //Login Endpoint
@@ -461,10 +415,10 @@ app.post('/employee/login', async (req, res) => {
     }
 });
 
-//module.exports = app;
+module.exports = app;
 
 // Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`Server is running on http://localhost:${PORT}`);
+// });
 

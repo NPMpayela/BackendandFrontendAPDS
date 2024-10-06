@@ -11,7 +11,7 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:3000/employee/login', {
+        axios.post('https://localhost:3000/employee/login', {
             username,
             password
         })

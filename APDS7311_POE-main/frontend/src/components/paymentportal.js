@@ -15,7 +15,7 @@ const Payment = () => {
 
     const handleSignup = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3000/payments', {
+        axios.post('https://localhost:3000/payments', {
             fullName,  // Updated to match backend field names
             idNumber,
             accountNumber,

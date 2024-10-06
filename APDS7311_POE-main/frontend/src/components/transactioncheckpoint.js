@@ -8,7 +8,7 @@ const Payments = () => {
 
     useEffect(() => {
         // Fetch payments on component mount
-        axios.get('http://localhost:3000/payments')
+        axios.get('https://localhost:3000/payments')
             .then(response => {
                 setPayments(response.data.data);  // Assume response contains payment data
                 setLoading(false);
@@ -20,7 +20,7 @@ const Payments = () => {
     }, []);
 
     const verifyPayment = (id) => {
-        axios.patch(`http://localhost:3000//payments/verify/${id}`)
+        axios.patch(`https://localhost:3000//payments/verify/${id}`)
             .then(response => {
                 alert('Payment verified successfully');
                 // Optionally re-fetch the payments to update the list
@@ -32,7 +32,7 @@ const Payments = () => {
     };
 
     const denyPayment = (id) => {
-        axios.patch(`http://localhost:3000/payments/deny/${id}`)
+        axios.patch(`https://localhost:3000/payments/deny/${id}`)
             .then(response => {
                 alert('Payment denied');
                 // Optionally re-fetch the payments to update the list
