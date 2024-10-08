@@ -8,8 +8,8 @@ const now = new Date();
 const current = now.toLocaleString();
 
 const server = http.createServer({
-    key: fs.readFileSync('Keyz/privatekey.pem'),
-    cert: fs.readFileSync('Keyz/certificate.pem')
+    key: fs.readFileSync('Keys/privatekey.pem'),
+    cert: fs.readFileSync('Keys/certificate.pem')
 }, app);
 
 //Front end json start :  

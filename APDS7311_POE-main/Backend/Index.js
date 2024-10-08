@@ -4,18 +4,21 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const app = express();
-//const PORT = process.env.PORT || 3000;
 
 
-// Middleware
-// app.use(cors());
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+const allowedOrigins = ['https://localhost:4659'];
 
 app.use(cors({
-    origin: 'https://localhost:4659', // Replace with your frontend URL
-    credentials: true // Allow credentials to be sent
-}));
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+})); 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -113,48 +116,6 @@ app.post('/login', async (req, res) => {
 });
 
 
-
-// const authenticate = (req, res, next) => {
-//     const token = req.headers['authorization']; // Expect the token in the Authorization header
-//     if (!token) {
-//         return res.status(401).json({ message: 'Unauthorized' });
-//     }
-
-//     try {
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//         req.user = decoded; // Attach user data to the request (userId, accountNumber, etc.)
-//         next();
-//     } catch (error) {
-//         return res.status(401).json({ message: 'Invalid token' });
-//     }
-// };
-
-// app.post('/payments', authenticate, async (req, res) => {
-//     try {
-//         const { paymentAmount, currency, provider, swiftCode } = req.body;
-//         if (!paymentAmount || !currency || !provider || !swiftCode) {
-//             return res.status(400).json({ message: 'All fields are required' });
-//         }
-
-//         const paymentModel = {
-//             userId: req.user.userId,
-//             fullName:req.user.fullName,
-//             //idNumber:req.user.idNumber,  // Get userId from the authenticated user
-//             accountNumber: req.user.accountNumber,  // Get accountNumber from authenticated user
-//             paymentAmount,
-//             currency,
-//             provider,
-//             swiftCode,
-//             status: 'Pending' // Automatically set status to Pending
-//         };
-
-//         const paymentsCollection = db.collection('payments');
-//         await paymentsCollection.insertOne(paymentModel);
-//         res.status(201).json({ message: 'Payment created successfully' });
-//     } catch (error) {
-//         res.status(500).json({ message: 'Internal server error', error });
-//     }
-// });
 
 // Post Payment
 // Payments Endpoint
@@ -417,8 +378,4 @@ app.post('/employee/login', async (req, res) => {
 
 module.exports = app;
 
-// Start the server
-// app.listen(PORT, () => {
-//     console.log(`Server is running on http://localhost:${PORT}`);
-// });
 

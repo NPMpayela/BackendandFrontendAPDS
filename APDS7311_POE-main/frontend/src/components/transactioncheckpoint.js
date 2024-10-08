@@ -20,7 +20,7 @@ const Payments = () => {
     }, []);
 
     const verifyPayment = (id) => {
-        axios.patch(`https://localhost:3000//payments/verify/${id}`)
+        axios.patch(`https://localhost:3000/payments/verify/${id}`)
             .then(response => {
                 alert('Payment verified successfully');
                 // Optionally re-fetch the payments to update the list
